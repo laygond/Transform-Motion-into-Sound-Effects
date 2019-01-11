@@ -42,35 +42,49 @@ Afterwards, we observed all twelve plots and constructed five different conditio
  ![alt text](README_images/club_motionPattern.JPG "Description goes here")
  
  ## Motion into Pyaudio
-  In our Python code, we decided that the amplitude modulation (duck sound) would take place whenever the Z-Gravity Sensor was greater than 7 and the robotization effect would take place whenever the Y-Gravity Sensor was greater than 7. The vibrato would take place whenever the Z-Gyroscope was above .5 and the reverberation effect (feedback) would take place whenever √(X − Linear acceleration)2 + (Z − Linear Acceleration)2 was greater than 3. The echo effect would take place whenever |X − Rotational V ector| + |Z − rotational vector| was greater than 2 
+In our Python code, we decided that the amplitude modulation (duck sound) would take place whenever the Z-Gravity Sensor was greater than 7 and the robotization effect would take place whenever the Y-Gravity Sensor was greater than 7. The vibrato would take place whenever the Z-Gyroscope was above .5 and the reverberation effect (feedback) would take place whenever √(X − Linear acceleration)^2 + (Z − Linear Acceleration)^2 was greater than 3. The echo effect would take place whenever |X − Rotational V ector| + |Z − rotational vector| was greater than 2 
 
-These thresholds and audio effects were implemented in Python using if statements to correspond with a different audio processing effect. In order to implement multiple conditions at once, we placed flags in the Python code (the variable is called noCondition). Figure 6 shows a fragment of the Python code with two of the conditions and audio effects (echo and reverberation). Gff refers to the feed forward gain, Gdp refers to the direct path gain and Gfb refers to the feedback gain. These are just parameters that are needed to implement echo and reverberation in Python. 
+These thresholds and audio effects were implemented in Python using if statements to correspond with a different audio processing effect. In order to implement multiple conditions at once, we placed flags in the Python code (the variable is called noCondition). The code block below shows a fragment of the Python code with two of the conditions and audio effects (echo and reverberation). Gff refers to the feed forward gain, Gdp refers to the direct path gain and Gfb refers to the feedback gain. These are just parameters that are needed to implement echo and reverberation in Python. 
 
-`   #Condition 3    --for-->        ECHO
-    if ((abs(xRot)+abs(zRot)) > 2 or condition3True):
-        Gdp = 1            
-        Gff = 2      
-        echo = int(buffer_MAX/2)  #1/2 of the distance of its buffer
-        output_block3 = func_echo(input_tuple, Gdp, Gff, echo)
-        noCondition = 0
-        countConditions += 1
-    
-    #Condition 4    --for-->        FEEDBACK
-    if (math.sqrt(xLinAcc**2 + zLinAcc**2) > 3 or condition4True):
-        Gdp = 1            
-        Gff = 2      
-        Gfb = 0.4
-        output_block4 = func_feedback(input_tuple, Gdp, Gff, Gfb)
-        noCondition = 0
-        countConditions += 1`
+```   
+  #Condition 3    --for-->        ECHO
+  if ((abs(xRot)+abs(zRot)) > 2 or condition3True):
+      Gdp = 1            
+      Gff = 2      
+      echo = int(buffer_MAX/2)  #1/2 of the distance of its buffer
+      output_block3 = func_echo(input_tuple, Gdp, Gff, echo)
+      noCondition = 0
+      countConditions += 1
 
-![alt text](README_images/club_patternDecision.JPG "Description goes here")
+  #Condition 4    --for-->        FEEDBACK
+  if (math.sqrt(xLinAcc**2 + zLinAcc**2) > 3 or condition4True):
+      Gdp = 1            
+      Gff = 2      
+      Gfb = 0.4
+      output_block4 = func_feedback(input_tuple, Gdp, Gff, Gfb)
+      noCondition = 0
+      countConditions += 1
+```
 
 ## Keyboard for testing
-We also implemented PyGame to incorporate keyboard control, providing users with two methods of input (real time motion or pressing a button on the keyboard). We initially came up with this method because we just wanted to make sure that the audio effect was programmed correctly, regardless of the juggling motion. This is why the “condition3True” and “condition4True” variables are in the if statements. For amplitude modulation (condition1True), 4we press the “a” key. For the vibrato effect (condition2True), we press the “v” key. For the echo effect (condition3True), we press the “e” key. For the reverberation effect (condition4True), we press the “f” key. For the robotization effect (condition5True), we press the “r” key. These keyboard inputs can be considered another set of threshold conditions, as an alternative to juggling motion. Figure 7 shows the Pygame implementation for keyboard control
+We also implemented PyGame to incorporate keyboard control, providing users with two methods of input (real time motion or pressing a button on the keyboard). We initially came up with this method because we just wanted to make sure that the audio effect was programmed correctly, regardless of the juggling motion. This is why the “condition3True” and “condition4True” variables are in the if statements. For amplitude modulation (condition1True), 4we press the “a” key. For the vibrato effect (condition2True), we press the “v” key. For the echo effect (condition3True), we press the “e” key. For the reverberation effect (condition4True), we press the “f” key. For the robotization effect (condition5True), we press the “r” key. These keyboard inputs can be considered another set of threshold conditions, as an alternative to juggling motion. The code block below shows the Pygame implementation for keyboard control
 
- ![alt text](README_images/club_keyboard.JPG "Description goes here")
-
+```
+ events = pygame.event.get()
+ for event in events:
+     if event.type == pygame.KEYDOWN:
+         if event.key == pygame.K_a: condition1True = 1
+         if event.key == pygame.K_v: condition2True = 1
+         if event.key == pygame.K_e: condition3True = 1
+         if event.key == pygame.K_f: condition4True = 1
+         if event.key == pygame.K_r: condition5True = 1
+     if event.type == pygame.KEYUP:
+         if event.key == pygame.K_a: condition1True = 0
+         if event.key == pygame.K_v: condition2True = 0
+         if event.key == pygame.K_e: condition3True = 0
+         if event.key == pygame.K_f: condition4True = 0
+         if event.key == pygame.K_r: condition5True = 0
+```            
 ## Future Improvements
 * Considering switching to bluetooth (we tried to do this earlier on for this project, but decided to switch to Wi-Fi due to time constraints)
 * Utilizing swarm robotics for collective behavior of the system: juggling patterns.
