@@ -10,7 +10,7 @@ By using IMU sensors we collect the movements of a juggling club in real time an
 ## Overview
 The overall structure of the Python code involves collecting data coming from the sensors by the HyperIMU android app via UDP, determining which conditions (pre-determine motions) the data satisfies as it is being processed in real time, and based on the threshold condition (motion), passing the condition to a specific function for a different audio effect. More than two sound effects can also be triggered via a keyboard.
 
-![alt text](README_Images/Segnet.png "Description goes here")
+![alt text](README_images/club setup.JPG "Description goes here")
 
 **Preconditions**
 Before determining the motion conditions directly into python we studied the data by plotting it in Matlab in real time. Once the features needed were extracted we procedded directly into python as you can see in the image above with the long curve from juggling to audio effects. Although real time plotting could be done in Python, we decided to use Matlab because we simply had the code already from another project.
