@@ -45,6 +45,7 @@ Afterwards, we observed all twelve plots and constructed five different conditio
   In our Python code, we decided that the amplitude modulation (duck sound) would take place whenever the Z-Gravity Sensor was greater than 7 and the robotization effect would take place whenever the Y-Gravity Sensor was greater than 7. The vibrato would take place whenever the Z-Gyroscope was above .5 and the reverberation effect (feedback) would take place whenever √(X − Linear acceleration)2 + (Z − Linear Acceleration)2 was greater than 3. The echo effect would take place whenever |X − Rotational V ector| + |Z − rotational vector| was greater than 2 
 
 These thresholds and audio effects were implemented in Python using if statements to correspond with a different audio processing effect. In order to implement multiple conditions at once, we placed flags in the Python code (the variable is called noCondition). Figure 6 shows a fragment of the Python code with two of the conditions and audio effects (echo and reverberation). Gff refers to the feed forward gain, Gdp refers to the direct path gain and Gfb refers to the feedback gain. These are just parameters that are needed to implement echo and reverberation in Python. 
+
 ![alt text](README_images/club_patternDecision.JPG "Description goes here")
 
 ## Keyboard for testing
