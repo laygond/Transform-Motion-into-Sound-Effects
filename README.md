@@ -46,6 +46,24 @@ Afterwards, we observed all twelve plots and constructed five different conditio
 
 These thresholds and audio effects were implemented in Python using if statements to correspond with a different audio processing effect. In order to implement multiple conditions at once, we placed flags in the Python code (the variable is called noCondition). Figure 6 shows a fragment of the Python code with two of the conditions and audio effects (echo and reverberation). Gff refers to the feed forward gain, Gdp refers to the direct path gain and Gfb refers to the feedback gain. These are just parameters that are needed to implement echo and reverberation in Python. 
 
+`   #Condition 3    --for-->        ECHO
+    if ((abs(xRot)+abs(zRot)) > 2 or condition3True):
+        Gdp = 1            
+        Gff = 2      
+        echo = int(buffer_MAX/2)  #1/2 of the distance of its buffer
+        output_block3 = func_echo(input_tuple, Gdp, Gff, echo)
+        noCondition = 0
+        countConditions += 1
+    
+    #Condition 4    --for-->        FEEDBACK
+    if (math.sqrt(xLinAcc**2 + zLinAcc**2) > 3 or condition4True):
+        Gdp = 1            
+        Gff = 2      
+        Gfb = 0.4
+        output_block4 = func_feedback(input_tuple, Gdp, Gff, Gfb)
+        noCondition = 0
+        countConditions += 1`
+
 ![alt text](README_images/club_patternDecision.JPG "Description goes here")
 
 ## Keyboard for testing
